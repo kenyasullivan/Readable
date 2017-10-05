@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
 //Wire component to action creators
 import { connect } from 'react-redux';
@@ -29,11 +30,18 @@ class PostsList extends Component {
         //console.log(this.props.posts) // test we are receiving posts from state
         return (
         <div>
-   <h3>Posts</h3>
-   <ul className="list-group">
-   {this.renderPosts()}
-   </ul>
-     </div>
+        {/*Button with Navigation*/}
+          <div className="text-center">
+            <Link className="btn btn-outline-primary" to="/posts/new">
+            Add a Post
+            </Link>
+          </div>
+          {/*Render Posts to the Page*/}
+            <h3>Posts</h3>
+            <ul className="list-group">
+            {this.renderPosts()}
+            </ul>
+        </div>
         )
     }
 }
