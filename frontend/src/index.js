@@ -7,7 +7,7 @@ import './styles/bootstrap/dist/css/bootstrap.min.css';
 import PostsList from './components/PostsList';
 import registerServiceWorker from './registerServiceWorker';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 ReactDOM.render(<BrowserRouter>
 <div>
