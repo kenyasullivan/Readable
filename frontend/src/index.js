@@ -1,9 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
-import './styles/index.css';
-import App from './components/App';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import {BrowserRouter, Route} from 'react-router-dom';
+import './styles/bootstrap/dist/css/bootstrap.min.css';
+import PostsList from './components/PostsList';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
+const createStoreWithMiddleware = applyMiddleware()(createStore);
+
+ReactDOM.render(<BrowserRouter>
+<div>
+    <Route path='/' component={PostsList} />
+    </div>
+</BrowserRouter>, document.getElementById('root'));
 registerServiceWorker();
