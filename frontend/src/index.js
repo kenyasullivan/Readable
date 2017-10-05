@@ -6,6 +6,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import './styles/bootstrap/dist/css/bootstrap.min.css';
 import PostsList from './components/PostsList';
 import registerServiceWorker from './registerServiceWorker';
+import promise from 'redux-promise';
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
