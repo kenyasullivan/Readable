@@ -6,16 +6,16 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './styles/bootstrap/dist/css/bootstrap.min.css';
 import registerServiceWorker from './registerServiceWorker';
 
-import promise from 'redux-promise';
-import rootReducers from './reducers';
+//import promise from 'redux-promise';
+import reducer from './reducers';
 import PostsList from './components/PostsList';
 import CreatePosts from './components/CreatePosts'
-
-const store = applyMiddleware(promise)(createStore);
+import thunk from 'redux-thunk';
+const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   
-<Provider store={store(rootReducers)}>
+<Provider store={store}>
   <BrowserRouter>
       <Switch>
       <Route exact path='/' component={PostsList} />

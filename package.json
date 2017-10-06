@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "redux-form": "6.6.3"
+    "redux-form": "6.6.3",
+    "uuid": "^3.1.0"
   }
 }

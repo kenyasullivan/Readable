@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
+
+//Connect Action Creator
+import { connect } from 'react-redux';
+import { createPosts } from '../actions';
 
 class CreatePosts extends Component {
   renderField(field){
@@ -22,7 +27,7 @@ class CreatePosts extends Component {
     //Form submisson helper - reduxForm adds additional props passed to component/ 
     //HandleSubmit takes our helper function and gives us the values to do something
       onSubmit(values){
-        console.log(values)
+        this.props.createPosts(values)
       }
     
       render(){
@@ -38,17 +43,18 @@ class CreatePosts extends Component {
             />
     
             <Field 
-            label="Categories"
-            name="categories"
+            label="Author"
+            name="author"
             component={this.renderField}
             />
     
             <Field 
             label="Post Content"
-            name="content"
+            name="body"
             component={this.renderField}
             />
             <button type="submit" className="btn btn-primary">Submit</button>
+            <Link to="/" className="btn btn-danger"> Cancel</Link>
           </form>
         )
       }
@@ -76,4 +82,6 @@ class CreatePosts extends Component {
 export default reduxForm({
   validate,
   form: 'CreateNewPostForm'
-})(CreatePosts);
+}) (
+connect(null, { createPosts })(CreatePosts)
+);
