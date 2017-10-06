@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
-
+import { Field, reduxForm } from 'redux-form';
 
 class CreatePosts extends Component {
+ 
+    
+      
+  
   render(){
     return (
-      <div>This is a New Post Form</div>
+      <div>Hello</div>
     )
   }
 }
 
-export default CreatePosts;
+export default reduxForm({
+  form: 'CreateNewPostForm'
+})(CreatePosts);

@@ -7,7 +7,7 @@ import './styles/bootstrap/dist/css/bootstrap.min.css';
 import registerServiceWorker from './registerServiceWorker';
 
 import promise from 'redux-promise';
-import reducers from './reducers';
+import rootReducers from './reducers';
 import PostsList from './components/PostsList';
 import CreatePosts from './components/CreatePosts'
 
@@ -15,7 +15,7 @@ const store = applyMiddleware(promise)(createStore);
 
 ReactDOM.render(
   
-<Provider store={store(reducers)}>
+<Provider store={store(rootReducers)}>
   <BrowserRouter>
       <Switch>
       <Route exact path='/' component={PostsList} />
