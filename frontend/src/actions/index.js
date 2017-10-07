@@ -16,12 +16,13 @@ axios.defaults.headers.common['Authorization'] = AUTH;
 // }
 
 export function fetchPosts() {
+ const request = axios.get(`${ROOT_URL}/posts`);
   return dispatch => {
-    axios
-      .get(`${ROOT_URL}/posts`)
-      .then(res => dispatch({type: FETCH_POSTS, payload: res.data}));
-  };
-}
+    request.then(({data})=> {
+      dispatch({type: FETCH_POSTS, payload: data})
+  });
+}//end dispatch
+}//end fetchPosts
 
 export function createPosts(values, callback) {
   const {title, body, author, category} = values;
