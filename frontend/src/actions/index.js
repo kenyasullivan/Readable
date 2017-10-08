@@ -25,21 +25,13 @@ export function fetchPosts() {
 }//end fetchPosts
 
 export function createPosts(values, callback) {
-  const {title, body, author, category} = values;
 
-  const data = {
-    id: uuid(),
-    timestamp: Date.now(),
-    title,
-    body,
-    author,
-    category,
-  };
-
-  return dispatch => {
-    axios.post(`${ROOT_URL}/posts`, data).then(res => {
-      callback();
-      dispatch({type: CREATE_POSTS, payload: res.data});
-    });
-  };
+  const request = axios.post(`${ROOT_URL}/posts`, values) //request to server
+    
+      return dispatch => {
+        request.then(({values}) => {
+          dispatch({type: CREATE_POSTS, payload: request})
+          callback()  //callback to handle redirect after posts are added to page
+        }) 
+      }
 }

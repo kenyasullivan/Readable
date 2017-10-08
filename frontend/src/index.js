@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './styles/bootstrap/dist/css/bootstrap.min.css';
+import './styles/App.css';
 import registerServiceWorker from './registerServiceWorker';
 
 //import promise from 'redux-promise';

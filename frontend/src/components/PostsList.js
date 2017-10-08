@@ -31,13 +31,14 @@ class PostsList extends Component {
         return (
         <div>
         {/*Button with Navigation*/}
-          <div className="text-center">
-            <Link className="btn btn-outline-primary" to="/posts/new">
+          <div className="text-xs-right">
+            <Link className="btn btn-primary float-right" to="/posts/new">
             Add a Post
             </Link>
           </div>
           {/*Render Posts to the Page*/}
             <h3>Posts</h3>
+            <br/>
             <ul className="list-group">
             {this.renderPosts()}
             </ul>
