@@ -7,10 +7,12 @@ import './styles/bootstrap/dist/css/bootstrap.min.css';
 import './styles/App.css';
 import registerServiceWorker from './registerServiceWorker';
 
-//import promise from 'redux-promise';
 import reducer from './reducers';
 import PostsList from './components/PostsList';
-import CreatePosts from './components/CreatePosts'
+import CreatePosts from './components/CreatePosts';
+import PostDetails from './components/PostDetails';
+
+//Middleware
 import thunk from 'redux-thunk';
 const store = createStore(reducer, applyMiddleware(thunk));
 
@@ -21,6 +23,7 @@ ReactDOM.render(
       <Switch>
       <Route exact path='/' component={PostsList} />
       <Route path='/posts/new' component={CreatePosts} />
+      <Route path='/posts/:id' component={PostDetails} />
       </Switch>
   </BrowserRouter>
 </Provider>
