@@ -21,7 +21,9 @@ class PostsList extends Component {
             <li 
             key={post.id} 
             className="list-group-item">
+           <Link to={`/posts/${post.id}`}>
             {post.title}
+           </Link>
             </li>
         )
     })

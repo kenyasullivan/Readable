@@ -48,8 +48,6 @@ class PostsCreate extends Component {
     this.props.createPosts(values, ()=> {
       this.props.history.push('/')
     });
-	//	this.props.createPost(values, () => {
-		//	this.props.history.push('/');
 		};
 	
 
@@ -66,7 +64,7 @@ class PostsCreate extends Component {
 				</Field>
 				<br />
 				<button type="submit" className="btn btn-primary">
-        Submit
+        Save
       </button>
 				<Link to="/" className="btn btn-danger">
 					Cancel
