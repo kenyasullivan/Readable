@@ -56,7 +56,7 @@ export function createPosts(values, callback) {
         type: CREATE_POSTS,
         payload: response.data
       });
-      callback();
+      // callback();
     });
   };
 }
@@ -80,12 +80,11 @@ export function deletePost(id, callback) {
   };
 }
 
-export function editPost(id, callback) {
-  const request = axios.put(`${ROOT_URL}/posts/${id}`);
+export function editPost(id, updates) {
+  const request = axios.put(`${ROOT_URL}/posts/${id}`, updates);
   return dispatch => {
-    request.then(({ data }) => {
-      dispatch({ type: EDIT_POST, payload: data });
-      callback(); //callback to handle redirect after posts are added to page
+    request.then(response => {
+      dispatch({ type: EDIT_POST, payload: updates });
     });
   };
 }

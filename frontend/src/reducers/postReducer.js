@@ -7,7 +7,18 @@ export default function(state = {}, action) {
     case FETCH_POST:
       return { ...state, [action.payload.id]: action.payload };
     case FETCH_POSTS:
-      return _.mapKeys(action.payload, "id"); 
+      return _.mapKeys(action.payload, "id");
+    // case EDIT_POST:
+    //   return
+    //   state.map(post => {
+    //     if (post.id === action.id) {
+    //       return {
+    //         ...post,
+    //         ...post.updates
+    //       };
+    //     }
+    //     return post;
+    //   });
     case EDIT_POST:
       return {
         ...state,
