@@ -13,7 +13,7 @@ const EditPostPage = props => {
         post={props.post}
         submit={post => {
           // dispatch action to edit the expense
-          props.editPost(props.match.params.id, post);
+          props.editPost(props.post.id, post);
           // redirect to home page
           props.history.push("/");
         }}

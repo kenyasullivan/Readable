@@ -6,6 +6,7 @@ export const CREATE_POSTS = "CREATE_POSTS";
 export const FETCH_POST = "FETCH_POST";
 export const DELETE_POST = "DELETE_POST";
 export const EDIT_POST = "EDIT_POST";
+export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
 
 const ROOT_URL = "http://localhost:3001";
 const AUTH = { headers: { Authorization: "Its me!" } };
@@ -88,3 +89,13 @@ export function editPost(id, updates) {
     });
   };
 }
+
+//= ====Categories====//
+export function fetchCategories() {
+  const request = axios.get(`${ROOT_URL}/categories`);
+  return dispatch => {
+    request.then(({ data }) => {
+      dispatch({ type: FETCH_CATEGORIES, payload: data });
+    });
+  }; // end dispatch
+} // end fetchPosts
