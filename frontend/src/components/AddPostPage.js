@@ -14,9 +14,11 @@ class AddPostPage extends Component {
   };
   render() {
     return (
-      <div>
-        <h1>Add New Post</h1>
-        <Link to="/">Back to Home</Link>
+      <div className="container">
+      <Link to="/">Back to Home</Link>
+      <br/>
+        <h3>Add New Post</h3>
+        
         <PostForm submit={this.submit} />
       </div>
     );

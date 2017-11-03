@@ -7,8 +7,10 @@ import PostEditForm from "../components/forms/PostEditForm";
 const EditPostPage = props => {
   console.log(props);
   return (
-    <div>
-      <h1>Edit Post</h1>
+    <div className="container">
+      <Link to="/">Back to Home</Link>
+      <br/>
+      <h3>Edit Post</h3>
       <PostEditForm
         post={props.post}
         submit={post => {
