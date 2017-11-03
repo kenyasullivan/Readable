@@ -15,6 +15,8 @@
     "redux": "^3.7.2",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
+    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-react": "^0.75.1",
     "uuid": "^3.1.0"
   },
   "scripts": {

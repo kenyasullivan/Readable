@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 
 //Wire component to action creators
 import { connect } from "react-redux";
-import { fetchPosts } from "../actions";
+import { fetchPosts, fetchCategories } from "../actions";
 
 class PostsList extends Component {
   //lifecycle method to initial call to API
   componentDidMount() {
     this.props.fetchPosts();
+    this.props.fetchCategories()
   }
 
   //helper function to render posts: map over posts and render 1 <li> for each
@@ -25,22 +26,36 @@ class PostsList extends Component {
     });
   }
 
-  renderCategories() {}
+  renderCategories() {
+		const {categories} = this.props;
+		if (categories) {
+			return categories.map(category => {
+				return (
+					<li key={category.path} className="list-group-item">
+						<a href={'/' + category.name}>{category.name}</a>
+					</li>
+				);
+			});
+		}
+	}
   render() {
     //console.log(this.props.posts) // test we are receiving posts from state
-    return (
-      <div>
-        {/*Button with Navigation*/}
-        <div className="text-xs-right">
-          <Link className="btn btn-primary float-right" to="/posts/new">
-            Add a Post
-          </Link>
-        </div>
+    return (   
+    <div className="container">
+    <div className="row">
+    <div className="col-9">
         {/*Render Posts to the Page*/}
         <h3>Posts</h3>
-        <br />
         <ul className="list-group">{this.renderPosts()}</ul>
       </div>
+      <div className="col-3"> <h3>Category</h3>
+    <ul className="list-group">
+    {this.renderCategories()}
+    </ul>
+    </div>
+      </div>
+    </div> 
+ 
     );
   }
 }
@@ -50,8 +65,8 @@ class PostsList extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
-    categories: state.categories
+    categories: state.categories.categories
   };
 }
 //get action creator as prop
-export default connect(mapStateToProps, { fetchPosts })(PostsList);
+export default connect(mapStateToProps, { fetchPosts, fetchCategories })(PostsList);
