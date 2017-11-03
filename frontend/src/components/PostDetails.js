@@ -28,25 +28,20 @@ class PostDetails extends Component {
       return <div>Loading...</div>;
     }
     return (
-      <div>
+      <div className="ui container">
         <Link to="/">Back To Home</Link>
-
-        <h3>{post.title}</h3>
-        <h6>
-          <span>Author:{post.author}</span>
-        </h6>
-        <p>{post.body}</p>
+        <div className="content">
+        <i className="right floated trash outline icon" />
         <Link to={`/posts/edit/${post.id}`}>
-          <button type="submit" className="btn btn-primary">
-            Edit
-          </button>
+          <i className="right floated edit icon" />
         </Link>
-        <button
-          className="btn btn-danger pull-right"
-          onClick={this.onDeleteSubmit.bind(this)}
-        >
-          Delete Post
-        </button>
+        <div className="header">
+          <Link to={`/posts/${post.id}`}>{post.title}</Link>
+        </div>
+        <div className="description">
+          <p>{post.body}</p>
+        </div>
+      </div>
       </div>
     );
   }

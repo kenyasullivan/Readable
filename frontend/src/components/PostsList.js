@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import { List, Button } from "semantic-ui-react";
 
 //Wire component to action creators
 import { connect } from "react-redux";
@@ -19,9 +20,28 @@ class PostsList extends Component {
   renderPosts() {
     return _.map(this.props.posts, post => {
       return (
-        <li key={post.id} className="list-group-item">
+        <div className="ui card">
+      <div className="content">
+        <i className="right floated trash outline icon" />
+        <Link to={`/posts/edit/${post.id}`}>
+          <i className="right floated edit icon" />
+        </Link>
+        <div className="header">
           <Link to={`/posts/${post.id}`}>{post.title}</Link>
-        </li>
+        </div>
+      </div>
+      <div className="extra content">
+        <span className="left floated like">
+          <i className="comments outline icon" />
+          {post.commentCount} Comments
+        </span>
+        <span className="right floated star">
+          <i className="chevron up icon" />
+          {post.voteScore}
+          <i className="chevron down icon" />
+        </span>
+      </div>
+    </div>
       );
     });
   }
@@ -32,7 +52,7 @@ class PostsList extends Component {
 			return categories.map(category => {
 				return (
 					<li key={category.path} className="list-group-item">
-						<a href={'/' + category.name}>{category.name}</a>
+						<a href={`/${category.name}`}>{category.name}</a>
 					</li>
 				);
 			});
@@ -41,21 +61,22 @@ class PostsList extends Component {
   render() {
     //console.log(this.props.posts) // test we are receiving posts from state
     return (   
-    <div className="container">
-    <div className="row">
-    <div className="col-9">
+     <div className="ui container">
+    <div className="ui two column grid">
+    <div className="twelve wide column">
         {/*Render Posts to the Page*/}
         <h3>Posts</h3>
-        <ul className="list-group">{this.renderPosts()}</ul>
+        <ul className="ui one cards">{this.renderPosts()}</ul>
       </div>
-      <div className="col-3"> <h3>Category</h3>
-    <ul className="list-group">
-    {this.renderCategories()}
-    </ul>
+      <div className="four wide column"> <h3>Category</h3>
+      <List divided relaxed size={"big"}>
+      <List.Item>
+        <List.Content>{this.renderCategories()} </List.Content>
+      </List.Item>
+    </List>
     </div>
-      </div>
+    </div>
     </div> 
- 
     );
   }
 }

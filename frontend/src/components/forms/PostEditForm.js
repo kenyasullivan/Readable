@@ -60,7 +60,7 @@ class PostEditForm extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
+      <div className="ui container">
         <Form onSubmit={this.onSubmit}>
           <Form.Field
             error={!!errors.title}

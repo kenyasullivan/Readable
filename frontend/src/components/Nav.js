@@ -1,18 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import { Container, Header, Button, Divider, Grid } from 'semantic-ui-react'
 
 const Nav = () => (
-  <div className="jumbotron jumbotron-fluid bg-info text-white text-center">
-    <div className="container">
-      <header>
-      <h1 className="display-3">Welcome to Readable</h1>
-      <p className="lead">Your source for news.... </p>
-      </header>
-      <div>
-   <Link className="btn btn-light btn-lg" to="/posts/new">Add A Post </Link>
-   </div>
-    </div>
-  </div>
-) ;
+  <div>
+<Container text fluid>
+<Header as="h1" textAlign="center">
+Readable
+</Header>
+</Container>
+<Divider/>
+<br/>
+<Container>
+<Grid floated right columns={4}>
+    <Grid.Column>
+   <Link to="/posts/new"> <Button primary>Add Post</Button></Link>
+    </Grid.Column>
+</Grid>
+</Container>
+</div>
+);
 
 export default Nav;

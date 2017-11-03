@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import "./styles/bootstrap/dist/css/bootstrap.min.css";
+import "semantic-ui-css/semantic.min.css";
+// import "./styles/bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
 import registerServiceWorker from "./registerServiceWorker";
 
@@ -22,6 +23,7 @@ const store = createStore(reducer, applyMiddleware(thunk));
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
+    
       <div>
       <Nav />
       <Switch>
