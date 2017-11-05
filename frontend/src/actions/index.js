@@ -7,6 +7,12 @@ export const FETCH_POST = "FETCH_POST";
 export const DELETE_POST = "DELETE_POST";
 export const EDIT_POST = "EDIT_POST";
 export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
+export const FETCH_COMMENTS = "FETCH_COMMENTS";
+export const FETCH_COMMENT = "FETCH_COMMENT";
+export const DELETE_COMMENT = "DELETE_COMMENT";
+export const VOTE_COMMENT = "VOTE_COMMENT";
+export const CREATE_COMMENT = "CREATE_COMMENT";
+export const UPDATE_SORT_COMMENTS_BY = "UPDATE_SORT_COMMENTS_BY";
 
 const ROOT_URL = "http://localhost:3001";
 const AUTH = { headers: { Authorization: "Its me!" } };
@@ -25,20 +31,9 @@ export function fetchPosts() {
     request.then(({ data }) => {
       dispatch({ type: FETCH_POSTS, payload: data });
     });
-  }; //end dispatch
-} //end fetchPosts
+  };
+}
 
-// export function createPosts(values, callback) {
-
-//   const request = axios.post(`${ROOT_URL}/posts`, values) //request to server
-
-//       return dispatch => {
-//         request.then(({values}) => {
-//           dispatch({type: CREATE_POSTS, payload: request})
-//           callback()  //callback to handle redirect after posts are added to page
-//         })
-//       }
-// }
 export function createPosts(values, callback) {
   const { title, body, author, category } = values;
 
@@ -97,5 +92,69 @@ export function fetchCategories() {
     request.then(({ data }) => {
       dispatch({ type: FETCH_CATEGORIES, payload: data });
     });
-  }; // end dispatch
-} // end fetchPosts
+  };
+}
+
+//= ====Comments===//
+export function fetchComments(postId) {
+  const request = axios.get(`${ROOT_URL}/posts/${postId}/comments`);
+  return dispatch => {
+    request.then(({ data }) => {
+      dispatch({ type: FETCH_COMMENTS, payload: data });
+    });
+  };
+}
+
+export function fetchComment(id) {
+  const request = axios.get(`${ROOT_URL}/comments/${id}`);
+  return dispatch => {
+    request.then(({ data }) => {
+      dispatch({ type: FETCH_COMMENT, payload: data });
+    });
+  };
+}
+
+export function createComment(values, parentId, callback) {
+  const { body, author } = values;
+
+  const data = {
+    id: uuid.v4(),
+    parentId,
+    timestamp: Date.now(),
+    author,
+    body
+  };
+  const request = axios.post(`${ROOT_URL}/comments`, data); // request to server
+  return dispatch => {
+    request.then(response => {
+      dispatch({
+        type: CREATE_COMMENT,
+        payload: response.data
+      });
+      // callback();
+    });
+  };
+}
+
+export function deleteComment(id, callback) {
+  const request = axios.delete(`${ROOT_URL}/comments/${id}`);
+  return dispatch => {
+    request.then(({ id }) => {
+      dispatch({ type: DELETE_COMMENT, payload: id });
+      callback(); //callback to handle redirect after posts are added to page
+    });
+  };
+}
+
+export function voteComment(id, option) {
+  const request = axios.delete(`${ROOT_URL}/comments/${id}, option`);
+  return dispatch => {
+    request.then(({ data }) => {
+      dispatch({ type: VOTE_COMMENT, payload: data });
+    });
+  };
+}
+export const updateSortCommentsBy = sortBy => ({
+  type: UPDATE_SORT_COMMENTS_BY,
+  sortBy
+});

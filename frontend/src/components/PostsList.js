@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { Link } from "react-router-dom";
-import { List, Button, Container, Grid, Icon } from "semantic-ui-react";
+import { List, Button, Container, Grid } from "semantic-ui-react";
+import Moment from "react-moment";
 
 //Wire component to action creators
 import { connect } from "react-redux";
@@ -13,21 +14,34 @@ class PostsList extends Component {
     this.props.fetchPosts();
     this.props.fetchCategories();
   }
-
+  onDeleteSubmit() {
+    const { id } = this.props.match.params;
+    this.props.deletePost(id, () => {
+      this.props.history.push("/");
+    });
+  }
   //helper function to render posts: map over posts and render 1 <li> for each
   //Using and object so use lodash map _.map
   //use post.id as key
   renderPosts() {
     return _.map(this.props.posts, post => {
       return (
-        <div className="ui card">
+        <div className="ui card" key={post.id}>
           <div className="content">
-            <Icon name="trash outline" className="right"/>
+            <i
+              className="right floated trash outline icon"
+              onClick={this.onDeleteSubmit.bind(this)}
+            />
             <Link to={`/posts/edit/${post.id}`}>
               <i className="right floated edit icon" />
             </Link>
             <div className="header">
               <Link to={`/posts/${post.id}`}>{post.title}</Link>
+            </div>
+            <div className="card meta">
+              Submited{" "}
+              <Moment format="MM-DD-YYYY HH:mm">{post.timestamp}</Moment> by{" "}
+              {post.author} in {post.category}
             </div>
           </div>
           <div className="extra content">
@@ -63,7 +77,7 @@ class PostsList extends Component {
     return (
       <div>
         <Container>
-          <Grid floated right columns={4}>
+          <Grid columns={4}>
             <Grid.Column>
               <Link to="/posts/new">
                 {" "}

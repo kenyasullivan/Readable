@@ -1,14 +1,17 @@
+import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Item, Container, Button } from "semantic-ui-react";
-import { fetchPost, deletePost, editPost } from "../actions";
+import Moment from "react-moment";
+import { Item, Container, Button, Comment, Header } from "semantic-ui-react";
+import { fetchPost, deletePost, editPost, fetchComments } from "../actions";
 import Comments from "./Comments";
 
 class PostDetails extends Component {
   componentDidMount() {
     const { id } = this.props.match.params; //react router provides
     this.props.fetchPost(id);
+    this.props.fetchComments(id);
   }
 
   onDeleteSubmit() {
@@ -29,6 +32,7 @@ class PostDetails extends Component {
     if (!post) {
       return <div>Loading...</div>;
     }
+
     return (
       <Container>
         <Link to="/">Back To Home</Link>
@@ -38,7 +42,11 @@ class PostDetails extends Component {
               <Item.Header as="a">{post.title}</Item.Header>
               <Item.Meta>
                 <span className="cinema">
-                  Submited: {post.timestamp} By:{post.author} in {post.category}
+                  Submited:{" "}
+                  <Moment format="MM-DD-YYYY HH:mm">
+                    {post.timestamp}
+                  </Moment>{" "}
+                  By:{post.author} in {post.category}
                 </span>
               </Item.Meta>
               <Container>
@@ -55,17 +63,30 @@ class PostDetails extends Component {
             </Item.Content>
           </Item>
         </Item.Group>
-
-        <Comments />
+        <Container>
+          <Comment.Group>
+            <Header as="h3" dividing>
+              Comments
+            </Header>
+            <Comments postId={post.id} />
+          </Comment.Group>
+        </Container>
       </Container>
     );
   }
 }
 
-function mapStateToProps({ posts }, ownProps) {
-  return { post: posts[ownProps.match.params.id] }; //returns only the single post needed.
+function mapStateToProps(state, ownProps) {
+  const comments = _.filter(state.comments, comment => !comment.deleted);
+  return {
+    post: state.posts[ownProps.match.params.id],
+    comments
+  };
 }
 
-export default connect(mapStateToProps, { fetchPost, deletePost, editPost })(
-  PostDetails
-);
+export default connect(mapStateToProps, {
+  fetchPost,
+  deletePost,
+  editPost,
+  fetchComments
+})(PostDetails);
