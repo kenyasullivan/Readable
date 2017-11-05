@@ -1,16 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "semantic-ui-css/semantic.min.css";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import "semantic-ui-css/semantic.min.css";
-// import "./styles/bootstrap/dist/css/bootstrap.min.css";
-import "./styles/App.css";
 import registerServiceWorker from "./registerServiceWorker";
-
 import reducer from "./reducers";
+
 import PostsList from "./components/PostsList";
-// import CreatePosts from "./components/CreatePosts";
 import PostDetails from "./components/PostDetails";
 import EditPostPage from "./components/EditPostPage";
 import AddPostPage from "./components/AddPostPage";

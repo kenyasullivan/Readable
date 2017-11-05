@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Container, Header, Button, Divider, Grid } from "semantic-ui-react";
+import { Container, Header, Divider } from "semantic-ui-react";
 
 const Nav = () => (
   <div>

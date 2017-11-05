@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 import { Form, Input, TextArea, Button } from "semantic-ui-react";
 import InlineError from "../messages/InlineError";
-import { fetchPost, editPost } from "../../actions";
+// import { fetchPost, editPost } from "../../actions";
 
 class PostEditForm extends Component {
   // state = {

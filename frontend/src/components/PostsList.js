@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { Link } from "react-router-dom";
-import { List, Button, Container, Grid } from "semantic-ui-react";
+import { List, Button, Container, Grid, Icon } from "semantic-ui-react";
 
 //Wire component to action creators
 import { connect } from "react-redux";
@@ -22,7 +22,7 @@ class PostsList extends Component {
       return (
         <div className="ui card">
           <div className="content">
-            <i className="right floated trash outline icon" />
+            <Icon name="trash outline" className="right"/>
             <Link to={`/posts/edit/${post.id}`}>
               <i className="right floated edit icon" />
             </Link>
