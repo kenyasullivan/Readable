@@ -14,8 +14,8 @@ class Comments extends Component {
   state = {
     formData: {
       author: " ",
-      body: " ",
-      parentId: " "
+      body: this.props.comment ? this.props.comment.body : " ",
+      parentId: null
     }
   };
 
