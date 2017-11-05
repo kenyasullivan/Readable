@@ -114,8 +114,8 @@ export function fetchComment(id) {
   };
 }
 
-export function createComment(values, parentId, callback) {
-  const { body, author } = values;
+export function createComment(values, parentId) {
+  const { author, body } = values;
 
   const data = {
     id: uuid.v4(),

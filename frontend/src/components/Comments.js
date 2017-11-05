@@ -1,22 +1,30 @@
 import _ from "lodash";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import Moment from "react-moment";
 import { Button, Comment, Form } from "semantic-ui-react";
 import {
   fetchComments,
   deleteComment,
   voteComment,
   createComment
-} from "../actions/index";
+} from "../actions";
 
 class Comments extends Component {
+  state = {
+    formData: {
+      author: " ",
+      body: " ",
+      parentId: " "
+    }
+  };
+
   componentWillMount() {
     const { fetchComments, postId } = this.props;
     fetchComments(postId);
   }
 
-  deleteButton(id) {
+  deleteComments(id) {
     const { deleteComment, fetchComments, postId } = this.props;
 
     deleteComment(id, () => {
@@ -24,20 +32,42 @@ class Comments extends Component {
     });
   }
 
-  renderComments() {
-    // const { comments } = this.props;
+  onInputChange = (e, { name, value }) => {
+    const formData = this.state.formData;
+    formData[name] = value;
+    this.setState({ formData });
+  };
 
+  onSubmit(e) {
+    e.preventDefault();
+    const { id } = this.props.match.params;
+    const parentId = id;
+    this.props.createComment(this.state.formData, parentId);
+    this.setState({ formData: "" }); //reset form data
+    this.props.history.push(`/posts/${id}`);
+  }
+
+  renderComments() {
     return this.props.comments.map(comment => {
       return (
         <Comment key={comment.id}>
           <Comment.Content>
-            <Comment.Author as="a">{comment.author}</Comment.Author>
+            <Comment.Author as="a">{comment.author} </Comment.Author>
             <Comment.Metadata>
-              <div>{comment.timestamp}</div>
+              <div>
+                replied{" "}
+                <Moment format="MM-DD-YYYY HH:mm">{comment.timestamp}</Moment>
+              </div>
             </Comment.Metadata>
             <Comment.Text>{comment.body}</Comment.Text>
             <Comment.Actions>
-              <Comment.Action>Reply</Comment.Action>
+              <Comment.Action as="a">Edit</Comment.Action>
+              <Comment.Action
+                as="a"
+                onClick={() => this.deleteComments(comment.id)}
+              >
+                Delete
+              </Comment.Action>
             </Comment.Actions>
           </Comment.Content>
         </Comment>
@@ -46,7 +76,32 @@ class Comments extends Component {
   }
 
   render() {
-    return <div>{this.renderComments()}</div>;
+    return (
+      <div>
+        {this.renderComments()}
+        <Form ref="commentForm" onSubmit={this.onSubmit.bind(this)}>
+          <Form.Input
+            name="author"
+            placeholder="Author"
+            value={this.state.formData.author || ""}
+            onChange={this.onInputChange}
+          />
+          <Form.TextArea
+            name="body"
+            placeholder="Comment"
+            value={this.state.formData.body || ""}
+            onChange={this.onInputChange}
+          />
+          <Button
+            content="Add Reply"
+            labelPosition="left"
+            icon="edit"
+            primary
+            type="submit"
+          />
+        </Form>
+      </div>
+    );
   }
 }
 

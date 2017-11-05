@@ -4,7 +4,13 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { Item, Container, Button, Comment, Header } from "semantic-ui-react";
-import { fetchPost, deletePost, editPost, fetchComments } from "../actions";
+import {
+  fetchPost,
+  deletePost,
+  editPost,
+  fetchComments,
+  createComment
+} from "../actions";
 import Comments from "./Comments";
 
 class PostDetails extends Component {
@@ -26,6 +32,10 @@ class PostDetails extends Component {
     this.props.editPost(id, () => {
       this.props.history.push("/");
     });
+  }
+
+  submit(data, id) {
+    this.createComment(data, id);
   }
   render() {
     const { post } = this.props;
@@ -68,7 +78,7 @@ class PostDetails extends Component {
             <Header as="h3" dividing>
               Comments
             </Header>
-            <Comments postId={post.id} />
+            <Comments postId={post.id} {...this.props} />
           </Comment.Group>
         </Container>
       </Container>
@@ -88,5 +98,6 @@ export default connect(mapStateToProps, {
   fetchPost,
   deletePost,
   editPost,
-  fetchComments
+  fetchComments,
+  createComment
 })(PostDetails);
