@@ -6,11 +6,12 @@ export const CREATE_POSTS = "CREATE_POSTS";
 export const FETCH_POST = "FETCH_POST";
 export const DELETE_POST = "DELETE_POST";
 export const EDIT_POST = "EDIT_POST";
+export const VOTE_FOR_POST = "VOTE_FOR_POST";
 export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
 export const FETCH_COMMENTS = "FETCH_COMMENTS";
 export const FETCH_COMMENT = "FETCH_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
-export const VOTE_COMMENT = "VOTE_COMMENT";
+export const VOTE_FOR_COMMENT = "VOTE_FOR_COMMENT";
 export const CREATE_COMMENT = "CREATE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 
@@ -81,6 +82,15 @@ export function editPost(id, updates) {
   return dispatch => {
     request.then(response => {
       dispatch({ type: EDIT_POST, payload: updates });
+    });
+  };
+}
+
+export function voteForPost(id, option) {
+  const request = axios.post(`${ROOT_URL}/posts/${id}`, { option: vote });
+  return dispatch => {
+    request.then(response => {
+      dispatch({ type: VOTE_FOR_POST, payload: data });
     });
   };
 }
@@ -161,6 +171,14 @@ export function editComment(id, updates) {
   return dispatch => {
     request.then(response => {
       dispatch({ type: EDIT_COMMENT, payload: id, updates });
+    });
+  };
+}
+export function voteForComment(id, option) {
+  const request = axios.post(`${ROOT_URL}/comments/${id}`, { option: vote });
+  return dispatch => {
+    request.then(response => {
+      dispatch({ type: VOTE_FOR_COMMENT, payload: data });
     });
   };
 }
