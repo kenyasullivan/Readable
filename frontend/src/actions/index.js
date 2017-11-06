@@ -12,7 +12,7 @@ export const FETCH_COMMENT = "FETCH_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const VOTE_COMMENT = "VOTE_COMMENT";
 export const CREATE_COMMENT = "CREATE_COMMENT";
-export const UPDATE_SORT_COMMENTS_BY = "UPDATE_SORT_COMMENTS_BY";
+export const EDIT_COMMENT = "EDIT_COMMENT";
 
 const ROOT_URL = "http://localhost:3001";
 const AUTH = { headers: { Authorization: "Its me!" } };
@@ -154,7 +154,12 @@ export function voteComment(id, option) {
     });
   };
 }
-export const updateSortCommentsBy = sortBy => ({
-  type: UPDATE_SORT_COMMENTS_BY,
-  sortBy
-});
+
+export function editComment(id, updates) {
+  const request = axios.put(`${ROOT_URL}/posts/${id}`, updates);
+  return dispatch => {
+    request.then(response => {
+      dispatch({ type: EDIT_COMMENT, payload: updates });
+    });
+  };
+}

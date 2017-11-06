@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { FETCH_COMMENTS, CREATE_COMMENT } from "../actions";
+import { FETCH_COMMENTS, CREATE_COMMENT, EDIT_COMMENT } from "../actions";
 
 function comments(state = {}, action) {
   switch (action.type) {
@@ -10,6 +10,7 @@ function comments(state = {}, action) {
         ...state,
         [action.payload.id]: action.payload
       };
+
     default:
       return state;
   }
