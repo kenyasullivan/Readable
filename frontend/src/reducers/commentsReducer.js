@@ -10,7 +10,11 @@ function comments(state = {}, action) {
         ...state,
         [action.payload.id]: action.payload
       };
-
+    case EDIT_COMMENT:
+      return {
+        ...state,
+        [action.payload.id]: action.payload
+      };
     default:
       return state;
   }

@@ -156,10 +156,11 @@ export function voteComment(id, option) {
 }
 
 export function editComment(id, updates) {
-  const request = axios.put(`${ROOT_URL}/posts/${id}`, updates);
+  const request = axios.put(`${ROOT_URL}/comments/${id}`, updates);
+  console.log("Dispatching EDIT_COMMIT action", id, updates);
   return dispatch => {
     request.then(response => {
-      dispatch({ type: EDIT_COMMENT, payload: updates });
+      dispatch({ type: EDIT_COMMENT, payload: id, updates });
     });
   };
 }

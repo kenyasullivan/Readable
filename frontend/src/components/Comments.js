@@ -14,10 +14,11 @@ import {
 class Comments extends Component {
   state = {
     formData: {
-      author: " ",
+      author: this.props.comment ? this.props.comment.author : " ",
       body: this.props.comment ? this.props.comment.body : " ",
-      id: null
-    }
+      id: this.props.comment ? this.props.comment.id : null
+    },
+    isEditing: false
   };
 
   componentWillMount() {
@@ -32,16 +33,17 @@ class Comments extends Component {
       fetchComments(postId);
     });
   }
-  editComment = comment => {
+  handleEditComment = comment => {
     const { author, body, id } = comment;
-    console.log(comment);
     this.setState({
       formData: {
         author,
         body,
         id
-      }
+      },
+      isEditing: true
     });
+    console.log(id, author, body);
   };
 
   onInputChange = (e, { name, value }) => {
@@ -52,10 +54,21 @@ class Comments extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { id } = this.props.match.params;
-    this.props.createComment(this.state.formData, id);
-    this.setState({ formData: "" }); //reset form data
-    this.props.history.push(`/posts/${id}`);
+
+    const { isEditing } = this.state;
+    const timestamp = Date.now();
+
+    if (isEditing === true) {
+      const { author, body, id } = this.state.formData;
+      this.props.editComment({ id, author, body, timestamp });
+      this.setState({ formData: "" }); //reset form data
+    } else {
+      const { id } = this.props.match.params;
+      this.props.createComment(this.state.formData, id);
+
+      this.setState({ formData: "" }); //reset form data
+      this.props.history.push(`/posts/${id}`);
+    }
   }
 
   renderComments() {
@@ -72,7 +85,10 @@ class Comments extends Component {
             </Comment.Metadata>
             <Comment.Text>{comment.body}</Comment.Text>
             <Comment.Actions>
-              <Comment.Action as="a" onClick={() => this.editComment(comment)}>
+              <Comment.Action
+                as="a"
+                onClick={() => this.handleEditComment(comment)}
+              >
                 Edit
               </Comment.Action>
               <Comment.Action
@@ -118,12 +134,13 @@ class Comments extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const comments = _.filter(state.comments, comment => !comment.deleted);
-  return { comments };
-}
+// function mapStateToProps(state, ownProps) {
+//   // const comments = _.filter(state.comments, comment => !comment.deleted);
+//   // return { comments };
+//   return { comment: state.comments[ownProps.match.params.id] };
+// }
 
-export default connect(mapStateToProps, {
+export default connect(null, {
   fetchComments,
   deleteComment,
   voteComment,
