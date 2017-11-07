@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Header, Divider } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 const Nav = () => (
   <div>

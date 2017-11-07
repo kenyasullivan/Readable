@@ -18,13 +18,6 @@ export const EDIT_COMMENT = "EDIT_COMMENT";
 const ROOT_URL = "http://localhost:3001";
 const AUTH = { headers: { Authorization: "Its me!" } };
 axios.defaults.headers.common["Authorization"] = AUTH;
-// export function fetchPosts() {
-// const request = axios.get(`${ROOT_URL}/posts`, AUTH )
-//     return {
-//         type: FETCH_POSTS,
-//         payload: request
-//     }
-// }
 
 export function fetchPosts() {
   const request = axios.get(`${ROOT_URL}/posts`);
@@ -67,12 +60,12 @@ export function fetchPost(id) {
   };
 }
 
-export function deletePost(id, callback) {
+export function deletePost(id) {
   const request = axios.delete(`${ROOT_URL}/posts/${id}`);
   return dispatch => {
     request.then(({ id }) => {
       dispatch({ type: DELETE_POST, payload: id });
-      callback(); //callback to handle redirect after posts are added to page
+      // callback();
     });
   };
 }
@@ -86,14 +79,22 @@ export function editPost(id, updates) {
   };
 }
 
-export function voteForPost(id, option) {
+export function voteForPost(id, vote) {
   const request = axios.post(`${ROOT_URL}/posts/${id}`, { option: vote });
   return dispatch => {
-    request.then(response => {
+    request.then(({ data }) => {
       dispatch({ type: VOTE_FOR_POST, payload: data });
     });
   };
 }
+// export function voteForPost(id, vote) {
+//   // const request = axios.post(`${ROOT_URL}/posts/${id}`, { option: vote });
+//   return dispatch => {
+//     axios
+//       .post(`${ROOT_URL}/posts/${id}`, { option: vote })
+//       .then(res => dispatch({ type: VOTE_FOR_POST, payload: res.data }));
+//   };
+// }
 
 //= ====Categories====//
 export function fetchCategories() {
@@ -156,29 +157,19 @@ export function deleteComment(id, callback) {
   };
 }
 
-export function voteComment(id, option) {
-  const request = axios.delete(`${ROOT_URL}/comments/${id}, option`);
-  return dispatch => {
-    request.then(({ data }) => {
-      dispatch({ type: VOTE_COMMENT, payload: data });
-    });
-  };
-}
-
 export function editComment(id, updates) {
   const request = axios.put(`${ROOT_URL}/comments/${id}`, updates);
-  console.log("Dispatching EDIT_COMMIT action", id, updates);
   return dispatch => {
     request.then(response => {
       dispatch({ type: EDIT_COMMENT, payload: id, updates });
     });
   };
 }
-export function voteForComment(id, option) {
+export function voteForComment(id, vote) {
   const request = axios.post(`${ROOT_URL}/comments/${id}`, { option: vote });
   return dispatch => {
     request.then(response => {
-      dispatch({ type: VOTE_FOR_COMMENT, payload: data });
+      dispatch({ type: VOTE_FOR_COMMENT, payload: vote });
     });
   };
 }

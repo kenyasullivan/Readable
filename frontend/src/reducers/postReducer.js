@@ -1,9 +1,10 @@
 import _ from "lodash";
-import { FETCH_POSTS, FETCH_POST, EDIT_POST } from "../actions";
+import { FETCH_POSTS, FETCH_POST, EDIT_POST, VOTE_FOR_POST } from "../actions";
 
-//pass in initial state, and action
 export default function(state = {}, action) {
   switch (action.type) {
+    case VOTE_FOR_POST:
+
     case FETCH_POST:
       return { ...state, [action.payload.id]: action.payload };
     case FETCH_POSTS:

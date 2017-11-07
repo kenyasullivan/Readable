@@ -6,7 +6,7 @@ import { Button, Comment, Form } from "semantic-ui-react";
 import {
   fetchComments,
   deleteComment,
-  voteComment,
+  voteForComment,
   createComment,
   editComment
 } from "../actions";
@@ -127,6 +127,7 @@ class Comments extends Component {
             icon="edit"
             primary
             type="submit"
+            size="mini"
           />
         </Form>
       </div>
@@ -143,7 +144,7 @@ class Comments extends Component {
 export default connect(null, {
   fetchComments,
   deleteComment,
-  voteComment,
+  voteForComment,
   createComment,
   editComment
 })(Comments);

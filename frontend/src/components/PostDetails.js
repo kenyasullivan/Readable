@@ -3,13 +3,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
-import { Item, Container, Button, Comment, Header } from "semantic-ui-react";
+import {
+  Item,
+  Container,
+  Button,
+  Comment,
+  Header,
+  Icon
+} from "semantic-ui-react";
 import {
   fetchPost,
   deletePost,
   editPost,
   fetchComments,
-  createComment
+  createComment,
+  voteForPost,
+  voteForComment
 } from "../actions";
 import Comments from "./Comments";
 
@@ -34,6 +43,9 @@ class PostDetails extends Component {
     });
   }
 
+  handleVote(id, vote) {
+    this.props.voteForPost(id, vote);
+  }
   submit(data, id) {
     this.createComment(data, id);
   }
@@ -64,11 +76,28 @@ class PostDetails extends Component {
               </Container>
               <Item.Extra>
                 <Link to={`/posts/edit/${post.id}`}>
-                  <Button color="red">Edit</Button>
+                  <Button color="red" size="mini">
+                    Edit
+                  </Button>
                 </Link>
-                <Button color="blue" onClick={this.onDeleteSubmit.bind(this)}>
+                <Button
+                  color="blue"
+                  size="mini"
+                  onClick={this.onDeleteSubmit.bind(this)}
+                >
                   Delete
                 </Button>
+                <Icon
+                  name="thumbs outline up"
+                  size="large"
+                  onClick={() => this.handleVote(post.id, "upVote")}
+                />
+                <b>{post.voteScore}</b>{" "}
+                <Icon
+                  name="thumbs outline down"
+                  size="large"
+                  onClick={() => this.handleVote(post.id, "downVote")}
+                />
               </Item.Extra>
             </Item.Content>
           </Item>
@@ -94,10 +123,15 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  fetchPost;
+}
 export default connect(mapStateToProps, {
   fetchPost,
   deletePost,
   editPost,
   fetchComments,
-  createComment
+  createComment,
+  voteForPost,
+  voteForComment
 })(PostDetails);

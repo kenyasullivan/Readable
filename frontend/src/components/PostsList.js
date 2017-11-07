@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { Link } from "react-router-dom";
-import { List, Button, Container, Grid } from "semantic-ui-react";
+import { List, Button, Container, Grid, Icon } from "semantic-ui-react";
 import Moment from "react-moment";
 
 //Wire component to action creators
 import { connect } from "react-redux";
-import { fetchPosts, fetchCategories } from "../actions";
+import { fetchPosts, fetchCategories, voteForPost } from "../actions";
 
 class PostsList extends Component {
   //lifecycle method to initial call to API
   componentDidMount() {
     this.props.fetchPosts();
-    this.props.fetchCategories();
+    // this.props.fetchCategories();
   }
   onDeleteSubmit() {
     const { id } = this.props.match.params;
@@ -20,6 +20,10 @@ class PostsList extends Component {
       this.props.history.push("/");
     });
   }
+  handleVote(id, vote) {
+    this.props.voteForPost(id, vote);
+  }
+
   //helper function to render posts: map over posts and render 1 <li> for each
   //Using and object so use lodash map _.map
   //use post.id as key
@@ -50,9 +54,22 @@ class PostsList extends Component {
               {post.commentCount} Comments
             </span>
             <span className="right floated star">
-              <i className="chevron up icon" />
-              {post.voteScore}
-              <i className="chevron down icon" />
+              <Icon
+                name="thumbs outline up"
+                size="large"
+                onClick={() => this.handleVote(post.id, "upVote")}
+              />
+              {""}
+              <span>
+                {" "}
+                <b>{post.voteScore}</b>
+              </span>
+              {""}
+              <Icon
+                name="thumbs outline down"
+                size="large"
+                onClick={() => this.handleVote(post.id, "downVote")}
+              />
             </span>
           </div>
         </div>
@@ -117,7 +134,13 @@ function mapStateToProps(state) {
     categories: state.categories.categories
   };
 }
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchPosts: () => dispatch(fetchPosts()),
+    // deletePost: id => dispatch(deletePost(id)),
+    voteForPost: (id, vote) => dispatch(voteForPost(id, vote))
+  };
+}
+
 //get action creator as prop
-export default connect(mapStateToProps, { fetchPosts, fetchCategories })(
-  PostsList
-);
+export default connect(mapStateToProps, mapDispatchToProps)(PostsList);
