@@ -7,8 +7,6 @@ export const FETCH_POST = "FETCH_POST";
 export const DELETE_POST = "DELETE_POST";
 export const EDIT_POST = "EDIT_POST";
 export const VOTE_FOR_POST = "VOTE_FOR_POST";
-export const SORT_BY_VOTE = "SORT_BY_VOTE";
-export const SORT_BY_TIME = "SORT_BY_TIME";
 export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
 export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
 export const FETCH_COMMENTS = "FETCH_COMMENTS";
@@ -17,7 +15,7 @@ export const DELETE_COMMENT = "DELETE_COMMENT";
 export const VOTE_FOR_COMMENT = "VOTE_FOR_COMMENT";
 export const CREATE_COMMENT = "CREATE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
-export const SORT_POSTS = "SORT_POSTS ";
+export const SORT_FOR_POSTS = "SORT_FOR_POSTS ";
 
 const ROOT_URL = "http://localhost:3001";
 const AUTH = { headers: { Authorization: "Its me!" } };
@@ -92,20 +90,6 @@ export function voteForPost(id, vote) {
   };
 }
 
-export function sortByVote(posts) {
-  console.log("Dispatch SortByVote", posts);
-  return {
-    type: SORT_BY_VOTE,
-    posts
-  };
-}
-export function sortByTime(posts) {
-  console.log("Dispatch SortByTime", posts);
-  return {
-    type: SORT_BY_TIME,
-    posts
-  };
-}
 //= ====Categories====//
 export function fetchCategories() {
   const request = axios.get(`${ROOT_URL}/categories`);
@@ -186,9 +170,10 @@ export function voteForComment(id, vote) {
     });
   };
 }
-export function sortPosts(sortType) {
+export function sortForPosts(method) {
+  console.log(method);
   return {
-    type: SORT_POSTS,
-    payload: sortType
+    type: SORT_FOR_POSTS,
+    payload: method
   };
 }

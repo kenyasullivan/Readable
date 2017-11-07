@@ -4,9 +4,15 @@ import { Link } from "react-router-dom";
 import { List, Button, Container, Grid, Icon } from "semantic-ui-react";
 import Moment from "react-moment";
 
-//Wire component to action creators
 import { connect } from "react-redux";
-import { fetchPosts, fetchCategories, voteForPost } from "../actions";
+import {
+  fetchPosts,
+  fetchCategories,
+  voteForPost,
+  sortForPosts
+} from "../actions";
+
+import { sortByScore, sortByDate } from "../utils/filters";
 
 class PostsList extends Component {
   //lifecycle method to initial call to API
@@ -24,12 +30,18 @@ class PostsList extends Component {
     this.props.voteForPost(id, vote);
   }
 
+  handlePostSort(method) {
+    this.props.sortForPosts(method);
+  }
+
   //helper function to render posts: map over posts and render 1 <li> for each
   //Using and object so use lodash map _.map
   //use post.id as key
   renderPosts() {
-    return _.map(this.props.posts, post => {
-      return (
+    const { posts } = this.props;
+    if (posts) {
+      const sortPosts = _.sortBy(posts, this.props.sortBy).reverse();
+      return sortPosts.map(post => (
         <div className="ui card" key={post.id}>
           <div className="content">
             <i
@@ -73,8 +85,8 @@ class PostsList extends Component {
             </span>
           </div>
         </div>
-      );
-    });
+      ));
+    }
   }
 
   renderCategories() {
@@ -91,6 +103,7 @@ class PostsList extends Component {
   }
   render() {
     //console.log(this.props.posts) // test we are receiving posts from state
+    const { sortForPosts } = this.props;
     return (
       <div>
         <Container>
@@ -100,6 +113,21 @@ class PostsList extends Component {
                 {" "}
                 <Button primary>Add Post</Button>
               </Link>
+            </Grid.Column>
+            <Grid.Column>
+              {" "}
+              <Button
+                value="votescore"
+                onClick={() => this.handlePostSort("voteScore")}
+              >
+                Sort By Popularity
+              </Button>
+              <Button
+                value="timestamp"
+                onClick={() => this.handlePostSort("timestamp")}
+              >
+                Sort By Date
+              </Button>
             </Grid.Column>
           </Grid>
         </Container>
@@ -127,7 +155,9 @@ class PostsList extends Component {
 //To consume from Application State use
 //return our list of posts for state
 function mapStateToProps(state) {
+  const { sortBy } = state;
   return {
+    sortBy,
     posts: state.posts,
     categories: state.categories.categories
   };
@@ -137,7 +167,8 @@ function mapDispatchToProps(dispatch) {
     fetchPosts: () => dispatch(fetchPosts()),
     // deletePost: id => dispatch(deletePost(id)),
     voteForPost: (id, vote) => dispatch(voteForPost(id, vote)),
-    fetchCategories: () => dispatch(fetchCategories())
+    fetchCategories: () => dispatch(fetchCategories()),
+    sortForPosts: method => dispatch(sortForPosts(method))
   };
 }
 
