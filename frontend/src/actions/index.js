@@ -7,13 +7,17 @@ export const FETCH_POST = "FETCH_POST";
 export const DELETE_POST = "DELETE_POST";
 export const EDIT_POST = "EDIT_POST";
 export const VOTE_FOR_POST = "VOTE_FOR_POST";
+export const SORT_BY_VOTE = "SORT_BY_VOTE";
+export const SORT_BY_TIME = "SORT_BY_TIME";
 export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
+export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
 export const FETCH_COMMENTS = "FETCH_COMMENTS";
 export const FETCH_COMMENT = "FETCH_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const VOTE_FOR_COMMENT = "VOTE_FOR_COMMENT";
 export const CREATE_COMMENT = "CREATE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
+export const SORT_POSTS = "SORT_POSTS ";
 
 const ROOT_URL = "http://localhost:3001";
 const AUTH = { headers: { Authorization: "Its me!" } };
@@ -87,15 +91,21 @@ export function voteForPost(id, vote) {
     });
   };
 }
-// export function voteForPost(id, vote) {
-//   // const request = axios.post(`${ROOT_URL}/posts/${id}`, { option: vote });
-//   return dispatch => {
-//     axios
-//       .post(`${ROOT_URL}/posts/${id}`, { option: vote })
-//       .then(res => dispatch({ type: VOTE_FOR_POST, payload: res.data }));
-//   };
-// }
 
+export function sortByVote(posts) {
+  console.log("Dispatch SortByVote", posts);
+  return {
+    type: SORT_BY_VOTE,
+    posts
+  };
+}
+export function sortByTime(posts) {
+  console.log("Dispatch SortByTime", posts);
+  return {
+    type: SORT_BY_TIME,
+    posts
+  };
+}
 //= ====Categories====//
 export function fetchCategories() {
   const request = axios.get(`${ROOT_URL}/categories`);
@@ -105,7 +115,10 @@ export function fetchCategories() {
     });
   };
 }
-
+export const updateCategory = category => ({
+  type: UPDATE_CATEGORY,
+  category
+});
 //= ====Comments===//
 export function fetchComments(postId) {
   const request = axios.get(`${ROOT_URL}/posts/${postId}/comments`);
@@ -171,5 +184,11 @@ export function voteForComment(id, vote) {
     request.then(({ data }) => {
       dispatch({ type: VOTE_FOR_COMMENT, payload: data });
     });
+  };
+}
+export function sortPosts(sortType) {
+  return {
+    type: SORT_POSTS,
+    payload: sortType
   };
 }

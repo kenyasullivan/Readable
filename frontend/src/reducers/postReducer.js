@@ -1,8 +1,18 @@
 import _ from "lodash";
-import { FETCH_POSTS, FETCH_POST, EDIT_POST, VOTE_FOR_POST } from "../actions";
+import sortBy from "sort-by";
+import {
+  FETCH_POSTS,
+  FETCH_POST,
+  EDIT_POST,
+  VOTE_FOR_POST,
+  SORT_BY_VOTE,
+  SORT_BY_TIME
+} from "../actions";
 
 export default function(state = {}, action) {
   switch (action.type) {
+    case SORT_BY_VOTE:
+      return { ...state.sort(sortBy("voteScore")) };
     case VOTE_FOR_POST:
     // return {
     //   ...state,
@@ -17,6 +27,8 @@ export default function(state = {}, action) {
         ...state,
         [action.payload.id]: action.payload
       };
+    case SORT_BY_TIME:
+      return { ...state.sort(sortBy("timestamp")) };
     default:
       return state;
   }
