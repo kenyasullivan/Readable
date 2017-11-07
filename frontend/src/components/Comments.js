@@ -46,6 +46,10 @@ class Comments extends Component {
     console.log(id, author, body);
   };
 
+  handleCommentVote(id, vote) {
+    this.props.voteForComment(id, vote);
+  }
+
   onInputChange = (e, { name, value }) => {
     const formData = this.state.formData;
     formData[name] = value;
@@ -72,9 +76,9 @@ class Comments extends Component {
   }
 
   renderComments() {
-    return this.props.comments.map(comment => {
+    return this.props.comments.map((comment, i) => {
       return (
-        <Comment key={comment.id}>
+        <Comment key={i}>
           <Comment.Content>
             <Comment.Author as="a">{comment.author} </Comment.Author>
             <Comment.Metadata>
@@ -97,6 +101,22 @@ class Comments extends Component {
               >
                 Delete
               </Comment.Action>
+              <Comment.Action
+                as="a"
+                onClick={() => this.handleCommentVote(comment.id, "upVote")}
+              >
+                upVote
+              </Comment.Action>
+              <span>{comment.voteScore} </span>
+              <span>
+                {" "}
+                <Comment.Action
+                  as="a"
+                  onClick={() => this.handleCommentVote(comment.id, "downVote")}
+                >
+                  downVote
+                </Comment.Action>
+              </span>
             </Comment.Actions>
           </Comment.Content>
         </Comment>

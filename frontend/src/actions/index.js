@@ -168,8 +168,8 @@ export function editComment(id, updates) {
 export function voteForComment(id, vote) {
   const request = axios.post(`${ROOT_URL}/comments/${id}`, { option: vote });
   return dispatch => {
-    request.then(response => {
-      dispatch({ type: VOTE_FOR_COMMENT, payload: vote });
+    request.then(({ data }) => {
+      dispatch({ type: VOTE_FOR_COMMENT, payload: data });
     });
   };
 }

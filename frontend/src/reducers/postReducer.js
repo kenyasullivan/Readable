@@ -4,7 +4,10 @@ import { FETCH_POSTS, FETCH_POST, EDIT_POST, VOTE_FOR_POST } from "../actions";
 export default function(state = {}, action) {
   switch (action.type) {
     case VOTE_FOR_POST:
-
+    // return {
+    //   ...state,
+    //   voteScore: [action.payload]
+    // };
     case FETCH_POST:
       return { ...state, [action.payload.id]: action.payload };
     case FETCH_POSTS:
