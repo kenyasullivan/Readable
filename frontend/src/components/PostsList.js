@@ -12,7 +12,7 @@ class PostsList extends Component {
   //lifecycle method to initial call to API
   componentDidMount() {
     this.props.fetchPosts();
-    // this.props.fetchCategories();
+    this.props.fetchCategories();
   }
   onDeleteSubmit() {
     const { id } = this.props.match.params;
@@ -82,9 +82,9 @@ class PostsList extends Component {
     if (categories) {
       return categories.map(category => {
         return (
-          <li key={category.path} className="list-group-item">
-            <a href={`/${category.name}`}>{category.name}</a>
-          </li>
+          <List.Item key={category.path}>
+            <Link to={`/${category.name}/posts}`}>{category.name}</Link>
+          </List.Item>
         );
       });
     }
@@ -114,9 +114,7 @@ class PostsList extends Component {
               {" "}
               <h3>Category</h3>
               <List divided relaxed size={"big"}>
-                <List.Item>
-                  <List.Content>{this.renderCategories()} </List.Content>
-                </List.Item>
+                <List.Content>{this.renderCategories()} </List.Content>
               </List>
             </div>
           </div>
@@ -138,7 +136,8 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchPosts: () => dispatch(fetchPosts()),
     // deletePost: id => dispatch(deletePost(id)),
-    voteForPost: (id, vote) => dispatch(voteForPost(id, vote))
+    voteForPost: (id, vote) => dispatch(voteForPost(id, vote)),
+    fetchCategories: () => dispatch(fetchCategories())
   };
 }
 

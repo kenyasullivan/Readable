@@ -11,7 +11,7 @@ import PostsList from "./components/PostsList";
 import PostDetails from "./components/PostDetails";
 import EditPostPage from "./components/EditPostPage";
 import AddPostPage from "./components/AddPostPage";
-import Nav from "./components/Nav";
+import AppHeader from "./components/AppHeader";
 
 //Middleware
 import thunk from "redux-thunk";
@@ -21,7 +21,7 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <div>
-        <Nav />
+        <AppHeader />
         <Switch>
           <Route exact path="/" component={PostsList} />
           <Route path="/posts/new" component={AddPostPage} />
