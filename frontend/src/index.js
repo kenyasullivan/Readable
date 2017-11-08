@@ -13,8 +13,8 @@ import EditPostPage from "./components/EditPostPage";
 import AddPostPage from "./components/AddPostPage";
 import AppHeader from "./components/AppHeader";
 import Categories from "./components/Categories";
+import NotFound from "./components/NotFound";
 
-//Middleware
 import thunk from "redux-thunk";
 const store = createStore(reducer, applyMiddleware(thunk));
 
@@ -25,10 +25,11 @@ ReactDOM.render(
         <AppHeader />
         <Switch>
           <Route exact path="/" component={PostsList} />
-          <Route path="/posts/new" component={AddPostPage} />
-          <Route path="/posts/edit/:id" component={EditPostPage} />
-          <Route path="/:category/:id" component={PostDetails} />
-          <Route path="/:category/" component={Categories} />
+          <Route exact path="/posts/new" component={AddPostPage} />
+          <Route exact path="/posts/edit/:id" component={EditPostPage} />
+          <Route exact path="/:category" component={Categories} />
+          <Route exact path="/:category/:id" component={PostDetails} />
+          <Route component={NotFound} />
         </Switch>
       </div>
     </BrowserRouter>

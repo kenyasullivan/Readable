@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import {
   fetchPosts,
   fetchCategories,
+  deletePostList,
   voteForPost,
   sortForPosts
 } from "../actions";
@@ -20,12 +21,7 @@ class PostsList extends Component {
     this.props.fetchPosts();
     this.props.fetchCategories();
   }
-  onDeleteSubmit() {
-    const { id } = this.props.match.params;
-    this.props.deletePost(id, () => {
-      this.props.history.push("/");
-    });
-  }
+
   handleVote(id, vote) {
     this.props.voteForPost(id, vote);
   }
@@ -34,9 +30,6 @@ class PostsList extends Component {
     this.props.sortForPosts(method);
   }
 
-  //helper function to render posts: map over posts and render 1 <li> for each
-  //Using and object so use lodash map _.map
-  //use post.id as key
   renderPosts() {
     const { posts } = this.props;
     if (posts) {
@@ -46,7 +39,7 @@ class PostsList extends Component {
           <div className="content">
             <i
               className="right floated trash outline icon"
-              onClick={this.onDeleteSubmit.bind(this)}
+              onClick={() => this.props.deletePostList(post.id)}
             />
             <Link to={`/posts/edit/${post.id}`}>
               <i className="right floated edit icon" />
@@ -95,7 +88,7 @@ class PostsList extends Component {
       return categories.map(category => {
         return (
           <List.Item key={category.path}>
-            <Link to={`/${category.name}/posts}`}>{category.name}</Link>
+            <Link to={`/${category.name}`}>{category.name}</Link>
           </List.Item>
         );
       });
@@ -165,7 +158,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchPosts: () => dispatch(fetchPosts()),
-    // deletePost: id => dispatch(deletePost(id)),
+    deletePostList: id => dispatch(deletePostList(id)),
     voteForPost: (id, vote) => dispatch(voteForPost(id, vote)),
     fetchCategories: () => dispatch(fetchCategories()),
     sortForPosts: method => dispatch(sortForPosts(method))

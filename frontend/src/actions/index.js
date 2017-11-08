@@ -8,6 +8,7 @@ export const DELETE_POST = "DELETE_POST";
 export const EDIT_POST = "EDIT_POST";
 export const VOTE_FOR_POST = "VOTE_FOR_POST";
 export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
+export const FILTER_CATEGORY = "FILTER_CATEGORY ";
 export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
 export const FETCH_COMMENTS = "FETCH_COMMENTS";
 export const FETCH_COMMENT = "FETCH_COMMENT";
@@ -16,6 +17,7 @@ export const VOTE_FOR_COMMENT = "VOTE_FOR_COMMENT";
 export const CREATE_COMMENT = "CREATE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 export const SORT_FOR_POSTS = "SORT_FOR_POSTS ";
+export const DELETE_POST_LIST = "DELETE_POST_LIST";
 
 const ROOT_URL = "http://localhost:3001";
 const AUTH = { headers: { Authorization: "Its me!" } };
@@ -30,7 +32,7 @@ export function fetchPosts() {
   };
 }
 
-export function createPosts(values, callback) {
+export function createPosts(values) {
   const { title, body, author, category } = values;
 
   const data = {
@@ -41,14 +43,13 @@ export function createPosts(values, callback) {
     category,
     body
   };
-  const request = axios.post(`${ROOT_URL}/posts`, data); // request to server
+  const request = axios.post(`${ROOT_URL}/posts`, data);
   return dispatch => {
     request.then(response => {
       dispatch({
         type: CREATE_POSTS,
         payload: response.data
       });
-      // callback();
     });
   };
 }
@@ -62,12 +63,12 @@ export function fetchPost(id) {
   };
 }
 
-export function deletePost(id) {
+export function deletePost(id, callback) {
   const request = axios.delete(`${ROOT_URL}/posts/${id}`);
   return dispatch => {
     request.then(({ id }) => {
+      callback();
       dispatch({ type: DELETE_POST, payload: id });
-      // callback();
     });
   };
 }
@@ -90,6 +91,14 @@ export function voteForPost(id, vote) {
   };
 }
 
+export function deletePostList(id) {
+  const request = axios.delete(`${ROOT_URL}/posts/${id}`);
+  return dispatch => {
+    request.then(({ id }) => {
+      dispatch({ type: DELETE_POST_LIST, payload: id });
+    });
+  };
+}
 //= ====Categories====//
 export function fetchCategories() {
   const request = axios.get(`${ROOT_URL}/categories`);
@@ -99,8 +108,8 @@ export function fetchCategories() {
     });
   };
 }
-export const updateCategory = category => ({
-  type: UPDATE_CATEGORY,
+export const filterCategory = category => ({
+  type: FILTER_CATEGORY,
   category
 });
 //= ====Comments===//

@@ -20,8 +20,8 @@ const Nav = () => {
         <Menu.Menu position="right">
           <Dropdown item text="Sort By:">
             <Dropdown.Menu>
-              <Dropdown.Item>Time</Dropdown.Item>
-              <Dropdown.Item>Vote</Dropdown.Item>
+              <Dropdown.Item>Sort By Popularity</Dropdown.Item>
+              <Dropdown.Item>Sort By Date</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
 
