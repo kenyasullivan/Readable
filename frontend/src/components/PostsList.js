@@ -13,11 +13,9 @@ import {
   voteForPost,
   sortForPosts
 } from "../actions";
-
-import { sortByScore, sortByDate } from "../utils/filters";
+import Nav from "./Nav";
 
 class PostsList extends Component {
-  //lifecycle method to initial call to API
   componentDidMount() {
     if (this.props.match.params.category) {
       this.props.postsByCategory(this.props.match.params.category);
@@ -34,8 +32,14 @@ class PostsList extends Component {
     this.props.sortForPosts(method);
   }
 
+  handleDelete(id, callback) {
+    this.props.deletePostList(id, () => {
+      this.props.history.push("/");
+    });
+  }
+
   renderPosts() {
-    const { categories, posts } = this.props;
+    const { posts } = this.props;
 
     if (posts) {
       const sortPosts = _.sortBy(posts, this.props.sortBy).reverse();
@@ -44,18 +48,18 @@ class PostsList extends Component {
           <div className="content">
             <i
               className="right floated trash outline icon"
-              onClick={() => this.props.deletePostList(post.id)}
+              onClick={() => this.handleDelete(post.id)}
             />
             <Link to={`/posts/edit/${post.id}`}>
               <i className="right floated edit icon" />
             </Link>
             <div className="header">
-              <Link to={`/posts/${post.id}`}>{post.title}</Link>
+              <Link to={`/${post.category}/${post.id}`}>{post.title}</Link>
             </div>
             <div className="card meta">
               Submited{" "}
               <Moment format="MM-DD-YYYY HH:mm">{post.timestamp}</Moment> by{" "}
-              {post.author} in {post.category}
+              {post.author} in <b>{post.category}</b>
             </div>
           </div>
           <div className="extra content">
@@ -100,12 +104,14 @@ class PostsList extends Component {
     }
   }
   render() {
-    //console.log(this.props.posts) // test we are receiving posts from state
-    const { sortForPosts } = this.props;
     return (
       <div>
         <Container>
-          <Grid columns={4}>
+          <Nav />
+          <br />
+        </Container>
+        <Container>
+          <Grid columns={2}>
             <Grid.Column>
               <Link to="/posts/new">
                 {" "}
@@ -130,18 +136,10 @@ class PostsList extends Component {
           </Grid>
         </Container>
         <div className="ui container">
-          <div className="ui two column grid">
+          <div className="ui one column grid">
             <div className="twelve wide column">
-              {/*Render Posts to the Page*/}
               <h3>Posts</h3>
               <ul className="ui one cards">{this.renderPosts()}</ul>
-            </div>
-            <div className="four wide column">
-              {" "}
-              <h3>Category</h3>
-              <List divided relaxed size={"big"}>
-                <List.Content>{this.renderCategories()} </List.Content>
-              </List>
             </div>
           </div>
         </div>
@@ -150,24 +148,20 @@ class PostsList extends Component {
   }
 }
 
-//To consume from Application State use
-//return our list of posts for state
-function mapStateToProps({ posts, category, sortBy, categories }, ownProps) {
-  const filterPost = _.filter(
-    posts,
-    post => post.category === ownProps.match.params.category
-  );
+function mapStateToProps({ posts, sortBy, categories }, ownProps) {
+  // const filteredPosts = _.filter(posts, post => !post.deleted);
   return {
     sortBy,
     posts: posts,
-    categories: categories.categories,
+    // category: category,
+    categories: categories.all,
     categoryName: ownProps.match.params.category
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
     fetchPosts: () => dispatch(fetchPosts()),
-    deletePostList: id => dispatch(deletePostList(id)),
+    deletePostList: (id, callback) => dispatch(deletePostList(id, callback)),
     voteForPost: (id, vote) => dispatch(voteForPost(id, vote)),
     fetchCategories: () => dispatch(fetchCategories()),
     sortForPosts: method => dispatch(sortForPosts(method)),
@@ -175,5 +169,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-//get action creator as prop
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList);

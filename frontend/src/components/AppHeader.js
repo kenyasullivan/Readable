@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Header,
-  Divider,
-  Menu,
-  Button,
-  Dropdown
-} from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Container, Header, Divider } from "semantic-ui-react";
 
 const AppHeader = () => (
   <div>

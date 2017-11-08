@@ -66,9 +66,9 @@ export function fetchPost(id) {
 export function deletePost(id, callback) {
   const request = axios.delete(`${ROOT_URL}/posts/${id}`);
   return dispatch => {
-    request.then(({ id }) => {
+    request.then(response => {
       callback();
-      dispatch({ type: DELETE_POST, payload: id });
+      dispatch({ type: DELETE_POST, payload: response.data });
     });
   };
 }
@@ -91,11 +91,13 @@ export function voteForPost(id, vote) {
   };
 }
 
-export function deletePostList(id) {
+export function deletePostList(id, callback) {
   const request = axios.delete(`${ROOT_URL}/posts/${id}`);
+  console.log("Receive:", id);
   return dispatch => {
-    request.then(({ id }) => {
-      dispatch({ type: DELETE_POST_LIST, payload: id });
+    request.then(response => {
+      dispatch({ type: DELETE_POST_LIST, payload: response.data });
+      callback();
     });
   };
 }

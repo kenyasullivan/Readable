@@ -20,6 +20,7 @@ import {
   voteForPost,
   voteForComment
 } from "../actions";
+import NotFound from "./NotFound";
 import Comments from "./Comments";
 
 class PostDetails extends Component {
@@ -52,7 +53,11 @@ class PostDetails extends Component {
   render() {
     const { post } = this.props;
     if (!post) {
-      return <div>Loading...</div>;
+      return (
+        <div>
+          <NotFound />
+        </div>
+      );
     }
 
     return (
@@ -64,16 +69,15 @@ class PostDetails extends Component {
               <Item.Header as="a">{post.title}</Item.Header>
               <Item.Meta>
                 <span className="cinema">
-                  Submited:{" "}
-                  <Moment format="MM-DD-YYYY HH:mm">
-                    {post.timestamp}
-                  </Moment>{" "}
-                  By:{post.author} in {post.category}
+                  Submited {" "}
+                  <Moment format="MM-DD-YYYY HH:mm">{post.timestamp}</Moment> by{" "}
+                  {post.author} in <b>{post.category}</b>
                 </span>
               </Item.Meta>
               <Container>
                 <Item.Description>{post.body}</Item.Description>
               </Container>
+              <br />
               <Item.Extra>
                 <Link to={`/posts/edit/${post.id}`}>
                   <Button color="red" size="mini">
@@ -123,9 +127,6 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  fetchPost;
-}
 export default connect(mapStateToProps, {
   fetchPost,
   deletePost,

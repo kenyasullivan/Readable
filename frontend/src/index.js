@@ -12,7 +12,6 @@ import PostDetails from "./components/PostDetails";
 import EditPostPage from "./components/EditPostPage";
 import AddPostPage from "./components/AddPostPage";
 import AppHeader from "./components/AppHeader";
-import Categories from "./components/Categories";
 import NotFound from "./components/NotFound";
 
 import thunk from "redux-thunk";

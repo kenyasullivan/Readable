@@ -1,40 +1,41 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchCategories } from "../actions";
 
-const Nav = () => {
-  return (
-    <Container>
-      <Menu size="tiny">
-        <Menu.Item>
-          <Link to="/">Home</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/">React</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/">Redux</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/">Udacity</Link>
-        </Menu.Item>
+class Nav extends Component {
+  componentWillMount() {
+    this.props.fetchCategories();
+  }
 
-        <Menu.Menu position="right">
-          <Dropdown item text="Sort By:">
-            <Dropdown.Menu>
-              <Dropdown.Item>Sort By Popularity</Dropdown.Item>
-              <Dropdown.Item>Sort By Date</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+  renderCategories() {
+    const { categories } = this.props;
+    if (categories) {
+      return categories.map(category => {
+        return (
+          <div key={category.path}>
+            <a className="item" href={"/" + category.name}>
+              {category.name}
+            </a>
+          </div>
+        );
+      });
+    }
+  }
 
-          <Menu.Item>
-            <Link to="/posts/new">
-              {" "}
-              <Button primary>Add Post</Button>
-            </Link>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
-    </Container>
-  );
-};
+  render() {
+    return (
+      <div className="ui secondary pointing menu">
+        <a className="header item" href={"/"}>
+          Home{" "}
+        </a>
+        {this.renderCategories()}
+      </div>
+    );
+  }
+}
 
-export default Nav;
+function mapStateToProps(state) {
+  return { categories: state.categories.all };
+}
+
+export default connect(mapStateToProps, { fetchCategories })(Nav);
