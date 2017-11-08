@@ -27,7 +27,7 @@ ReactDOM.render(
           <Route exact path="/" component={PostsList} />
           <Route exact path="/posts/new" component={AddPostPage} />
           <Route exact path="/posts/edit/:id" component={EditPostPage} />
-          <Route exact path="/:category" component={Categories} />
+          <Route exact path="/:category" component={PostsList} />
           <Route exact path="/:category/:id" component={PostDetails} />
           <Route component={NotFound} />
         </Switch>

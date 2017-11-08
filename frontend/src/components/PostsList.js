@@ -18,7 +18,7 @@ import { sortByScore, sortByDate } from "../utils/filters";
 class PostsList extends Component {
   //lifecycle method to initial call to API
   componentDidMount() {
-    this.props.fetchPosts();
+    this.props.fetchPosts(this.props.category);
     this.props.fetchCategories();
   }
 
@@ -31,7 +31,14 @@ class PostsList extends Component {
   }
 
   renderPosts() {
-    const { posts } = this.props;
+    const { categories, posts, categoryName } = this.props;
+    const { category } = this.props.match.params;
+    let filteredPost = [];
+    if (category && posts) {
+      filteredPost = _.filter(posts, post => post.category === categoryName);
+    }
+    console.log(this.props.posts);
+
     if (posts) {
       const sortPosts = _.sortBy(posts, this.props.sortBy).reverse();
       return sortPosts.map(post => (
@@ -147,12 +154,17 @@ class PostsList extends Component {
 
 //To consume from Application State use
 //return our list of posts for state
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const { sortBy } = state;
+  const filterPost = _.filter(
+    state.posts,
+    post => post.category === ownProps.match.params.category
+  );
   return {
     sortBy,
-    posts: state.posts,
-    categories: state.categories.categories
+    posts: filterPost,
+    categories: state.categories.categories,
+    categoryName: ownProps.match.params.category
   };
 }
 function mapDispatchToProps(dispatch) {
