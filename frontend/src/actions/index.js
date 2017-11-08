@@ -108,10 +108,16 @@ export function fetchCategories() {
     });
   };
 }
-export const filterCategory = category => ({
-  type: FILTER_CATEGORY,
-  category
-});
+
+export function postsByCategory(category) {
+  const request = axios.get(`${ROOT_URL}/${category}/posts`);
+  return dispatch => {
+    request.then(({ data }) => {
+      dispatch({ type: FETCH_POSTS, payload: data });
+    });
+  };
+}
+
 //= ====Comments===//
 export function fetchComments(postId) {
   const request = axios.get(`${ROOT_URL}/posts/${postId}/comments`);

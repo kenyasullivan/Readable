@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import {
   fetchPosts,
   fetchCategories,
+  postsByCategory,
   deletePostList,
   voteForPost,
   sortForPosts
@@ -18,8 +19,11 @@ import { sortByScore, sortByDate } from "../utils/filters";
 class PostsList extends Component {
   //lifecycle method to initial call to API
   componentDidMount() {
-    this.props.fetchPosts(this.props.category);
-    this.props.fetchCategories();
+    if (this.props.match.params.category) {
+      this.props.postsByCategory(this.props.match.params.category);
+    } else {
+      this.props.fetchPosts();
+    }
   }
 
   handleVote(id, vote) {
@@ -31,13 +35,7 @@ class PostsList extends Component {
   }
 
   renderPosts() {
-    const { categories, posts, categoryName } = this.props;
-    const { category } = this.props.match.params;
-    let filteredPost = [];
-    if (category && posts) {
-      filteredPost = _.filter(posts, post => post.category === categoryName);
-    }
-    console.log(this.props.posts);
+    const { categories, posts } = this.props;
 
     if (posts) {
       const sortPosts = _.sortBy(posts, this.props.sortBy).reverse();
@@ -154,16 +152,15 @@ class PostsList extends Component {
 
 //To consume from Application State use
 //return our list of posts for state
-function mapStateToProps(state, ownProps) {
-  const { sortBy } = state;
+function mapStateToProps({ posts, category, sortBy, categories }, ownProps) {
   const filterPost = _.filter(
-    state.posts,
+    posts,
     post => post.category === ownProps.match.params.category
   );
   return {
     sortBy,
-    posts: filterPost,
-    categories: state.categories.categories,
+    posts: posts,
+    categories: categories.categories,
     categoryName: ownProps.match.params.category
   };
 }
@@ -173,7 +170,8 @@ function mapDispatchToProps(dispatch) {
     deletePostList: id => dispatch(deletePostList(id)),
     voteForPost: (id, vote) => dispatch(voteForPost(id, vote)),
     fetchCategories: () => dispatch(fetchCategories()),
-    sortForPosts: method => dispatch(sortForPosts(method))
+    sortForPosts: method => dispatch(sortForPosts(method)),
+    postsByCategory: category => dispatch(postsByCategory(category))
   };
 }
 
