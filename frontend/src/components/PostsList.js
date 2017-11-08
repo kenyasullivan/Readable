@@ -7,7 +7,7 @@ import Moment from "react-moment";
 import { connect } from "react-redux";
 import {
   fetchPosts,
-  fetchCategories,
+  // fetchCategories,
   postsByCategory,
   deletePostList,
   voteForPost,
@@ -40,7 +40,6 @@ class PostsList extends Component {
 
   renderPosts() {
     const { posts } = this.props;
-
     if (posts) {
       const sortPosts = _.sortBy(posts, this.props.sortBy).reverse();
       return sortPosts.map(post => (
@@ -91,21 +90,21 @@ class PostsList extends Component {
     }
   }
 
-  renderCategories() {
-    const { categories } = this.props;
-    if (categories) {
-      return categories.map(category => {
-        return (
-          <List.Item key={category.path}>
-            <Link to={`/${category.name}`}>{category.name}</Link>
-          </List.Item>
-        );
-      });
-    }
-  }
+  // renderCategories() {
+  //   const { categories } = this.props;
+  //   if (categories) {
+  //     return categories.map(category => {
+  //       return (
+  //         <List.Item key={category.path}>
+  //           <Link to={`/${category.name}`}>{category.name}</Link>
+  //         </List.Item>
+  //       );
+  //     });
+  //   }
+  // }
   render() {
     return (
-      <div>
+      <div className="ui container">
         <Container>
           <Nav />
           <br />
@@ -148,14 +147,14 @@ class PostsList extends Component {
   }
 }
 
-function mapStateToProps({ posts, sortBy, categories }, ownProps) {
+function mapStateToProps({ posts, sortBy }) {
   // const filteredPosts = _.filter(posts, post => !post.deleted);
   return {
     sortBy,
-    posts: posts,
+    posts: posts
     // category: category,
-    categories: categories.all,
-    categoryName: ownProps.match.params.category
+    // categories: categories.all,
+    // categoryName: ownProps.match.params.category
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -163,7 +162,7 @@ function mapDispatchToProps(dispatch) {
     fetchPosts: () => dispatch(fetchPosts()),
     deletePostList: (id, callback) => dispatch(deletePostList(id, callback)),
     voteForPost: (id, vote) => dispatch(voteForPost(id, vote)),
-    fetchCategories: () => dispatch(fetchCategories()),
+    // fetchCategories: () => dispatch(fetchCategories()),
     sortForPosts: method => dispatch(sortForPosts(method)),
     postsByCategory: category => dispatch(postsByCategory(category))
   };
