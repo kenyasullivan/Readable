@@ -1,5 +1,4 @@
 # Readable: A React & Redux CRUD Application
-=======================================
 
 About
 ---- 
