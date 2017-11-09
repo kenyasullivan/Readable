@@ -1,21 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-// import { connect } from "react-redux";
 import { Form, Input, TextArea, Button } from "semantic-ui-react";
 import InlineError from "../messages/InlineError";
-// import { fetchPost, editPost } from "../../actions";
 
 class PostEditForm extends Component {
-  // state = {
-  //   formData: {
-  //     id: this.props.post.id,
-  //     title: this.props.post.title,
-  //     body: this.props.post.body,
-  //   },
-  //   errors: {},
-  //   _loading: false,
-  // };
-
   constructor(props) {
     super(props);
 
@@ -56,9 +44,7 @@ class PostEditForm extends Component {
   };
 
   render() {
-    // destructor this.state
     const { errors } = this.state;
-
     return (
       <div className="ui container">
         <Form onSubmit={this.onSubmit}>

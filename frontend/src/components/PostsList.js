@@ -1,5 +1,5 @@
-import React, { Component } from "react";
 import _ from "lodash";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { List, Button, Container, Grid, Icon } from "semantic-ui-react";
 import Moment from "react-moment";
@@ -7,9 +7,8 @@ import Moment from "react-moment";
 import { connect } from "react-redux";
 import {
   fetchPosts,
-  // fetchCategories,
   postsByCategory,
-  deletePostList,
+  deletePost,
   voteForPost,
   sortForPosts
 } from "../actions";
@@ -33,7 +32,7 @@ class PostsList extends Component {
   }
 
   handleDelete(id, callback) {
-    this.props.deletePostList(id, () => {
+    this.props.deletePost(id, () => {
       this.props.history.push("/");
     });
   }
@@ -46,11 +45,11 @@ class PostsList extends Component {
         <div className="ui card" key={post.id}>
           <div className="content">
             <i
-              className="right floated trash outline icon"
+              className="right floated trash outline icon large red"
               onClick={() => this.handleDelete(post.id)}
             />
             <Link to={`/posts/edit/${post.id}`}>
-              <i className="right floated edit icon" />
+              <i className="right floated edit icon large" />
             </Link>
             <div className="header">
               <Link to={`/${post.category}/${post.id}`}>{post.title}</Link>
@@ -63,13 +62,16 @@ class PostsList extends Component {
           </div>
           <div className="extra content">
             <span className="left floated like">
-              <i className="comments outline icon" />
-              {post.commentCount} Comments
+              <i className="comments outline icon blue" />
+              <Link to={`/${post.category}/${post.id}`}>
+                {post.commentCount} Comments
+              </Link>
             </span>
             <span className="right floated star">
               <Icon
                 name="thumbs outline up"
                 size="large"
+                color="blue"
                 onClick={() => this.handleVote(post.id, "upVote")}
               />
               {""}
@@ -81,6 +83,7 @@ class PostsList extends Component {
               <Icon
                 name="thumbs outline down"
                 size="large"
+                color="blue"
                 onClick={() => this.handleVote(post.id, "downVote")}
               />
             </span>
@@ -90,18 +93,6 @@ class PostsList extends Component {
     }
   }
 
-  // renderCategories() {
-  //   const { categories } = this.props;
-  //   if (categories) {
-  //     return categories.map(category => {
-  //       return (
-  //         <List.Item key={category.path}>
-  //           <Link to={`/${category.name}`}>{category.name}</Link>
-  //         </List.Item>
-  //       );
-  //     });
-  //   }
-  // }
   render() {
     return (
       <div className="ui container">
@@ -120,12 +111,14 @@ class PostsList extends Component {
             <Grid.Column>
               {" "}
               <Button
+                primary
                 value="votescore"
                 onClick={() => this.handlePostSort("voteScore")}
               >
                 Sort By Popularity
               </Button>
               <Button
+                primary
                 value="timestamp"
                 onClick={() => this.handlePostSort("timestamp")}
               >
@@ -148,21 +141,16 @@ class PostsList extends Component {
 }
 
 function mapStateToProps({ posts, sortBy }) {
-  // const filteredPosts = _.filter(posts, post => !post.deleted);
   return {
     sortBy,
     posts: posts
-    // category: category,
-    // categories: categories.all,
-    // categoryName: ownProps.match.params.category
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
     fetchPosts: () => dispatch(fetchPosts()),
-    deletePostList: (id, callback) => dispatch(deletePostList(id, callback)),
+    deletePost: (id, callback) => dispatch(deletePost(id, callback)),
     voteForPost: (id, vote) => dispatch(voteForPost(id, vote)),
-    // fetchCategories: () => dispatch(fetchCategories()),
     sortForPosts: method => dispatch(sortForPosts(method)),
     postsByCategory: category => dispatch(postsByCategory(category))
   };

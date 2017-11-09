@@ -17,7 +17,6 @@ export const VOTE_FOR_COMMENT = "VOTE_FOR_COMMENT";
 export const CREATE_COMMENT = "CREATE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 export const SORT_FOR_POSTS = "SORT_FOR_POSTS ";
-export const DELETE_POST_LIST = "DELETE_POST_LIST";
 
 const ROOT_URL = "http://localhost:3001";
 const AUTH = { headers: { Authorization: "Its me!" } };
@@ -91,16 +90,6 @@ export function voteForPost(id, vote) {
   };
 }
 
-export function deletePostList(id, callback) {
-  const request = axios.delete(`${ROOT_URL}/posts/${id}`);
-  console.log("Receive:", id);
-  return dispatch => {
-    request.then(response => {
-      dispatch({ type: DELETE_POST_LIST, payload: response.data });
-      callback();
-    });
-  };
-}
 //= ====Categories====//
 export function fetchCategories() {
   const request = axios.get(`${ROOT_URL}/categories`);
@@ -149,14 +138,13 @@ export function createComment(values, parentId) {
     author,
     body
   };
-  const request = axios.post(`${ROOT_URL}/comments`, data); // request to server
+  const request = axios.post(`${ROOT_URL}/comments`, data);
   return dispatch => {
     request.then(response => {
       dispatch({
         type: CREATE_COMMENT,
         payload: response.data
       });
-      // callback();
     });
   };
 }
@@ -166,7 +154,7 @@ export function deleteComment(id, callback) {
   return dispatch => {
     request.then(({ id }) => {
       dispatch({ type: DELETE_COMMENT, payload: id });
-      callback(); //callback to handle redirect after posts are added to page
+      callback();
     });
   };
 }

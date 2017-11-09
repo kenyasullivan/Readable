@@ -10,11 +10,6 @@ export default function categoryReducer(state = INIT_STATE, action) {
         ...state,
         all: action.payload.categories
       };
-    // case FILTER_CATEGORY:
-    //   return {
-    //     ...state,
-    //     action.category
-    //   };
     default:
       return state;
   }

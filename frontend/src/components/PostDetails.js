@@ -69,7 +69,7 @@ class PostDetails extends Component {
               <Item.Header as="a">{post.title}</Item.Header>
               <Item.Meta>
                 <span className="cinema">
-                  Submited {" "}
+                  Submited{" "}
                   <Moment format="MM-DD-YYYY HH:mm">{post.timestamp}</Moment> by{" "}
                   {post.author} in <b>{post.category}</b>
                 </span>

@@ -4,18 +4,12 @@ import {
   FETCH_POST,
   EDIT_POST,
   VOTE_FOR_POST,
-  DELETE_POST,
-  DELETE_POST_LIST
+  DELETE_POST
 } from "../actions";
 
 export default function postReducer(state = {}, action) {
   switch (action.type) {
     case VOTE_FOR_POST:
-    // return {
-    //   ...state,
-    //   voteScore: [action.payload]
-    // };
-
     case FETCH_POST:
       return { ...state, [action.payload.id]: action.payload };
     case FETCH_POSTS:
@@ -27,15 +21,6 @@ export default function postReducer(state = {}, action) {
         ...state,
         [action.payload.id]: action.payload
       };
-    case DELETE_POST_LIST:
-      // return _.map(state, post => {
-      //   if (post.id === action.payload.id) {
-      //     post.deleted = true;
-      //   }
-      //   return post;
-      // });
-      return _.omit(state, action.payload.id);
-
     default:
       return state;
   }

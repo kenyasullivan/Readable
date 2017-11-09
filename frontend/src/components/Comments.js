@@ -155,12 +155,6 @@ class Comments extends Component {
   }
 }
 
-// function mapStateToProps(state, ownProps) {
-//   // const comments = _.filter(state.comments, comment => !comment.deleted);
-//   // return { comments };
-//   return { comment: state.comments[ownProps.match.params.id] };
-// }
-
 export default connect(null, {
   fetchComments,
   deleteComment,
