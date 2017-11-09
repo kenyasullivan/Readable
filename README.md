@@ -15,7 +15,7 @@ This project uses React & Redux to build an application which allows:
 
 How to  install and run:
 ---- 
-The application requires an API Server (included)
+The application requires both a frontend and backend API Server (both included) 
 
 To get started:
 
