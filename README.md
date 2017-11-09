@@ -1,9 +1,9 @@
 # Readable: A React & Redux CRUD Application
 =======================================
-
+[link to Google!](http://google.com)
 About
 ---- 
-This application is  the the second project for [Udacity]'s [React Developer Nanoderee].
+This application is  the the second project for [Udacity's](httpd://www.udacity.com) [React Developer Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019).
 
 This project uses React & Redux to build an application which allows:
 * Posts Management: Create, Edit, View and Delete text-based posts in both a List or Post Detail view.
