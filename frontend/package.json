@@ -7,7 +7,6 @@
     "lodash": "^4.17.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-moment": "^0.6.5",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
@@ -15,11 +14,19 @@
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.75.1",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "moment": "^2.19.1",
+    "prop-types": "^15.6.0",
+    "react-moment": "^0.6.7"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom"
+  },
+  "devDependencies": {
+    "moment": "^2.19.1",
+    "prop-types": "^15.6.0",
+    "react-moment": "^0.6.7"
   }
 }
