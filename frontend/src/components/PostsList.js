@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { List, Button, Container, Grid, Icon } from "semantic-ui-react";
+import { Button, Container, Grid, Icon } from "semantic-ui-react";
 import Moment from "react-moment";
 
 import { connect } from "react-redux";

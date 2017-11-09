@@ -176,7 +176,6 @@ export function voteForComment(id, vote) {
   };
 }
 export function sortForPosts(method) {
-  console.log(method);
   return {
     type: SORT_FOR_POSTS,
     payload: method
